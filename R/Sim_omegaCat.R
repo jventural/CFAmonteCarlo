@@ -1,4 +1,4 @@
-compRelSEM_to_df <- function(results, num_factors) {
+Sim_omegaCat <- function(results, num_factors) {
   library(pbapply)  # Ensure pbapply is installed and loaded
   if (!requireNamespace("semTools", quietly = TRUE)) {
     stop("Please install the 'semTools' package.")
