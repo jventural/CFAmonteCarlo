@@ -1,5 +1,8 @@
 Sim_omegaCat <- function(results, num_factors) {
   library(pbapply)  # Ensure pbapply is installed and loaded
+  library(dplyr)    # Load dplyr for data manipulation
+  library(tidyr)    # Load tidyr for data reshaping
+
   if (!requireNamespace("semTools", quietly = TRUE)) {
     stop("Please install the 'semTools' package.")
   }
@@ -35,5 +38,16 @@ Sim_omegaCat <- function(results, num_factors) {
   # Combine the results into a single dataframe
   results_df <- dplyr::bind_rows(results_list)
 
-  return(results_df)
+  # Reshape the data to long format and compute descriptive statistics
+  Descriptives <- results_df %>%
+    pivot_longer(cols = everything(),
+                 names_to = "variable", values_to = "value") %>%
+    group_by(variable) %>%
+    summarise(Mean = mean(value, na.rm = TRUE),
+              Std_Dev = sd(value, na.rm = TRUE),
+              Min = min(value, na.rm = TRUE),
+              Max = max(value, na.rm = TRUE))
+
+  # Return both raw data and descriptive statistics as a list
+  list(Data = results_df, Descriptives = Descriptives)
 }
