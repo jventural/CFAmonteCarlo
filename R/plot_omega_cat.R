@@ -7,9 +7,9 @@ plot_omega_cat <- function(compRel_results) {
     stop("Please install the 'tidyr' package.")
   }
   compRel_results %>%
-    as_tibble() %>%
-    pivot_longer(cols = c(OmegaCat),
+    pivot_longer(cols = everything(),
                  names_to = "Reliability", values_to = "value") %>%
+    mutate(Reliability = paste0("\u03C9", Reliability)) %>%
     # Crea el boxplot
     ggplot(aes(x = Reliability, y = value)) +
     geom_boxplot(fill = "gray68", colour = "black") +

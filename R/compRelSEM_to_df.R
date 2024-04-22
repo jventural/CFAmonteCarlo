@@ -1,27 +1,39 @@
-compRelSEM_to_df <- function(results) {
-  library(pbapply) # Asegúrate de tener pbapply instalado y cargado
+compRelSEM_to_df <- function(results, num_factors) {
+  library(pbapply)  # Ensure pbapply is installed and loaded
   if (!requireNamespace("semTools", quietly = TRUE)) {
-    stop("Por favor instala el paquete 'semTools'")
+    stop("Please install the 'semTools' package.")
+  }
+  if (!requireNamespace("tidyr", quietly = TRUE)) {
+    stop("Please install the 'tidyr' package.")
+  }
+  if (!requireNamespace("dplyr", quietly = TRUE)) {
+    stop("Please install the 'dplyr' package.")
   }
 
-  # Asignar results$Fits a fit_list para simplificar el acceso
-  fit_list <- results$Fits
+  # Generate a list of factor names based on the specified number of factors
+  all_factors <- paste0("F", 1:num_factors)
 
-  # Función para aplicar compRelSEM a un elemento de fit_list y retornar el resultado
+  # Process each fit and return the result in a consistent format
   process_fit <- function(fit) {
     result <- semTools::compRelSEM(fit, tau.eq = FALSE, ord.scale = TRUE)
-    return(result)
+    # Ensure all factors are included even if not present in the result
+    result <- setNames(result, names(result))
+    missing_factors <- setdiff(all_factors, names(result))
+    result[missing_factors] <- NA  # Assign NA to missing factors
+
+    # Make sure the order of results matches the order of all_factors
+    ordered_result <- setNames(vector("numeric", length(all_factors)), all_factors)
+    ordered_result[names(result)] <- result
+
+    return(as_tibble(t(ordered_result), .name_repair = "minimal"))
   }
 
-  # Usar pblapply para aplicar compRelSEM a cada elemento de fit_list con una barra de progreso
+  # Apply compRelSEM to each element of fit_list with a progress bar
+  fit_list <- results$Fits
   results_list <- pblapply(fit_list, process_fit)
 
-  # Convertir la lista de resultados en un data.frame
-  results_df <- do.call(rbind, results_list)
+  # Combine the results into a single dataframe
+  results_df <- dplyr::bind_rows(results_list)
 
-  # Cambiar el nombre de la columna a 'OmegaCat'
-  colnames(results_df) <- "OmegaCat"
-
-  # Devolver el data.frame resultante
   return(results_df)
 }
