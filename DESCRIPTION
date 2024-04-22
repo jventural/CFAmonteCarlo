@@ -10,7 +10,6 @@ Imports: lavaan, dplyr, tidyr, ggplot2, purrr, parallel, broom
 Description: CFAmonteCarlo provides a suite of tools designed to perform Monte Carlo simulations for assessing the robustness and reliability of confirmatory factor analysis (CFA) models in statistical research. It includes functions for generating synthetic datasets, running multiple CFA models, and summarizing the results through visual and numeric outputs. The package is intended for use by researchers in psychology, sociology, and education who need to validate their measurement models under varying conditions.
 License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: true
 URL: https://github.com/apetrova/CFAmonteCarlo
 Packaged: 2024-04-21 10:30:00 UTC; AnnaPetrova
 Suggests: testthat (>= 3.0.0), knitr, rmarkdown

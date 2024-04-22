@@ -1,5 +1,6 @@
 extractFitMeasures <- function(results) {
   # Asegúrate de que las librerías necesarias están cargadas y disponibles
+  library(lavaan)
   library(pbapply)
   library(tibble)
   library(dplyr)

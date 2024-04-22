@@ -1,4 +1,6 @@
 Sim_omegaCat <- function(results, num_factors) {
+  library(tibble)
+  library(tidyverse)
   library(pbapply)  # Ensure pbapply is installed and loaded
   library(dplyr)    # Load dplyr for data manipulation
   library(tidyr)    # Load tidyr for data reshaping
