@@ -6,6 +6,9 @@ plot_omega_cat <- function(compRel_results) {
   if (!require("tidyr")) {
     stop("Please install the 'tidyr' package.")
   }
+  if (!require("tidyverse")) {
+    stop("Please install the 'tidyr' package.")
+  }
   compRel_results$Data %>%
     pivot_longer(cols = everything(),
                  names_to = "Reliability", values_to = "value") %>%
