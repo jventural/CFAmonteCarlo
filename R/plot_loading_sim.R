@@ -20,6 +20,6 @@ plot_loading_sim <- function(loading_results) {
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     scale_y_continuous(
       limits = c(round(min_est_std,2), 1.00),
-      breaks = seq(round(min_est_std,2), 1.00, by = 0.04)
+      breaks = seq(round(min_est_std,2), 1.00, by = 0.05)
     )
 }
