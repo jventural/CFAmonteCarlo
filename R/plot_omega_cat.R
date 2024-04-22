@@ -6,7 +6,7 @@ plot_omega_cat <- function(compRel_results) {
   if (!require("tidyr")) {
     stop("Please install the 'tidyr' package.")
   }
-  compRel_results %>%
+  compRel_results$Data %>%
     pivot_longer(cols = everything(),
                  names_to = "Reliability", values_to = "value") %>%
     mutate(Reliability = paste0("\u03C9", Reliability)) %>%
